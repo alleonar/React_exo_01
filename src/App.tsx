@@ -20,7 +20,6 @@ type RandomUser = {
   }
 }
 
-
 function App() {
 
   const [RandomUsers, setRandomUsers] = useState<RandomUser[]>([]);
@@ -29,21 +28,34 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
 
-      const datajson = await fetch("https://randomuser.me/api/?results=10");
-      const data = await datajson.json();
+      try {
+        
+        const datajson = await fetch("https://randomuser.me/api/?results=10");
+        if (!datajson.ok) throw new Error('Network response was not ok');
+  
+        const data = await datajson.json();
+        
+        if (data.results) {
+          setRandomUsers(data.results);
+        }
 
-      if (data.results) {
-        setRandomUsers(data.results);
+      } catch (error) {
+
+        console.error('Fetch error:', error);
       }
     }
     fetchData();
   }, [])
 
   const HandleExtend = (randomUser: RandomUser) => {
+
     if (isExtended.includes(randomUser.email)) {
+
       setIsExtended((isExtended) => 
         isExtended.filter(email => email !== randomUser.email))
+
     } else {
+
       setIsExtended([...isExtended, randomUser.email])
     }
   }
@@ -60,14 +72,15 @@ function App() {
               </div>
           </div>
       </header>
+      
       <div className="d-flex flex-wrap py-5 mx-auto justify-content-center" style={{width: '100%'}}>
         {RandomUsers.map((randomUser: RandomUser)=> 
           {
             if (isExtended.length === 0 || isExtended.includes(randomUser.email)) {
               return (
-                <Card className="card border-primary m-3" style={{width: '15rem'}}>
+                <Card key={randomUser.email} className="card border-primary m-3" style={{width: '15rem'}}>
     
-                  <img src={randomUser.picture.large}/>
+                  <Card.Img src={randomUser.picture.large}/>
     
                   {isExtended.includes(randomUser.email) ? (
                     <div className='userInfos'>
