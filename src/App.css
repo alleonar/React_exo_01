@@ -5,6 +5,21 @@
   text-align: center;
 }
 
+body {
+  background-color: #eeeeee !important; /* Gris très clair */
+  margin: 0; /* Supprimer les marges par défaut */
+  font-family: Arial, sans-serif; /* Police par défaut */
+}
+
+header {
+  background-color: white; /* Fond blanc pour le header */
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -65,11 +80,14 @@
 
 /* Cards */
 .card {
-  transition: transform 0.2s; /* Effet de zoom */
+  border-radius: 10px; /* Coins arrondis */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre par défaut */
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .card:hover {
   transform: scale(1.05); /* Agrandir la carte au survol */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
 }
 
 .userInfos {

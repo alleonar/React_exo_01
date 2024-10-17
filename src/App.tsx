@@ -55,7 +55,7 @@ function App() {
           {
             if (isExtended.length === 0 || isExtended.includes(randomUser.email)) {
               return (
-                <Card key={randomUser.email} className="card border-primary m-3" style={{width: '15rem'}}>
+                <Card key={randomUser.email} className="card m-3" style={{width: '15rem'}}>
     
                   <Card.Img src={randomUser.picture.large}/>
     
