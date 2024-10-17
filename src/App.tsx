@@ -1,62 +1,28 @@
 import { useState } from 'react';
-import { useEffect } from 'react';
+
 import './App.css';
 
 // Bootstrap.
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Card } from 'react-bootstrap';
-
-type RandomUser = {
-  name: {
-    title: string,
-    first: string,
-    last: string
-  },
-  email: string,
-  picture: {
-    large: string,
-    medium: string,
-    thumbnail: string
-  }
-}
+import { useFetch } from './hooks/UseFetch';
 
 function App() {
 
-  const [RandomUsers, setRandomUsers] = useState<RandomUser[]>([]);
+  const RandomUsers = useFetch({url: "https://randomuser.me/api/?results=10"})
+
   const [isExtended, setIsExtended] = useState<string[]>([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
+  const HandleExtend = (email: string) => {
 
-      try {
-        
-        const datajson = await fetch("https://randomuser.me/api/?results=10");
-        if (!datajson.ok) throw new Error('Network response was not ok');
-  
-        const data = await datajson.json();
-        
-        if (data.results) {
-          setRandomUsers(data.results);
-        }
-
-      } catch (error) {
-
-        console.error('Fetch error:', error);
-      }
-    }
-    fetchData();
-  }, [])
-
-  const HandleExtend = (randomUser: RandomUser) => {
-
-    if (isExtended.includes(randomUser.email)) {
+    if (isExtended.includes(email)) {
 
       setIsExtended((isExtended) => 
-        isExtended.filter(email => email !== randomUser.email))
+        isExtended.filter(email => email !== email))
 
     } else {
 
-      setIsExtended([...isExtended, randomUser.email])
+      setIsExtended([...isExtended, email])
     }
   }
 
@@ -74,7 +40,7 @@ function App() {
       </header>
       
       <div className="d-flex flex-wrap py-5 mx-auto justify-content-center" style={{width: '100%'}}>
-        {RandomUsers.map((randomUser: RandomUser)=> 
+        {RandomUsers.map((randomUser)=> 
           {
             if (isExtended.length === 0 || isExtended.includes(randomUser.email)) {
               return (
@@ -91,7 +57,7 @@ function App() {
                     </div>
                   ): ''}
     
-                  <Button onClick={() => HandleExtend(randomUser)} className="mt-3 primary">
+                  <Button onClick={() => HandleExtend(randomUser.email)} className="mt-3 primary">
                     {isExtended.includes(randomUser.email) ? 'Less' : 'More'}
                   </Button>
                 </Card>
