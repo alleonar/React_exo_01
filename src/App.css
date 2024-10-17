@@ -40,3 +40,38 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Loading spinner */
+#loading_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ajuste la hauteur si nécessaire */
+}
+
+.spinner {
+  border: 8px solid #f3f3f3; /* Couleur de fond */
+  border-top: 8px solid #3498db; /* Couleur du haut */
+  border-radius: 50%;
+  width: 50px; /* Taille du spinner */
+  height: 50px; /* Taille du spinner */
+  animation: spin 1s linear infinite; /* Animation */
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Cards */
+.card {
+  transition: transform 0.2s; /* Effet de zoom */
+}
+
+.card:hover {
+  transform: scale(1.05); /* Agrandir la carte au survol */
+}
+
+.userInfos {
+  margin-top: 10px; /* Espacement pour les infos utilisateur */
+}

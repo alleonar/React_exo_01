@@ -21,17 +21,22 @@ export const useFetch = ({url}: useFetchProps) => {
         }
     }
 
-    const [RandomUsers, setRandomUsers] = useState<RandomUser[]>([]);
+    const [randomUsers, setRandomUsers] = useState<RandomUser[]>([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
+
+            setLoading(true);
     
           try {
-            
+
             const datajson = await fetch(url);
             if (!datajson.ok) throw new Error('Network response was not ok');
       
             const data = await datajson.json();
+
+            console.log(datajson)
             
             if (data.results) {
               setRandomUsers(data.results);
@@ -40,12 +45,15 @@ export const useFetch = ({url}: useFetchProps) => {
           } catch (error) {
     
             console.error('Fetch error:', error);
+          } finally {
+
+            setLoading(false)
           }
         }
         fetchData();
       }, [url])
 
-      return RandomUsers;
+      return { randomUsers, loading };
 }
 
 

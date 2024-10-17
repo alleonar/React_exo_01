@@ -1,15 +1,17 @@
+// React
 import { useState } from 'react';
+import { useFetch } from './hooks/UseFetch';
 
+// CSS
 import './App.css';
 
 // Bootstrap.
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Card } from 'react-bootstrap';
-import { useFetch } from './hooks/UseFetch';
 
 function App() {
 
-  const RandomUsers = useFetch({url: "https://randomuser.me/api/?results=10"})
+  const { randomUsers, loading } = useFetch({url: "https://randomuser.me/api/?results=10"})
 
   const [isExtended, setIsExtended] = useState<string[]>([]);
 
@@ -24,6 +26,15 @@ function App() {
 
       setIsExtended([...isExtended, email])
     }
+  }
+  console.log (randomUsers)
+  if (loading) {
+
+    return (
+      <div id='loading_container'>
+        <div className="spinner"></div>
+      </div>
+    );
   }
 
   return (
@@ -40,7 +51,7 @@ function App() {
       </header>
       
       <div className="d-flex flex-wrap py-5 mx-auto justify-content-center" style={{width: '100%'}}>
-        {RandomUsers.map((randomUser)=> 
+        {randomUsers.map((randomUser)=> 
           {
             if (isExtended.length === 0 || isExtended.includes(randomUser.email)) {
               return (
